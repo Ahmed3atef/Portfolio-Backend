@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:18-alpine # Use the official Alpine image for a smaller size
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/ # Persist data using a named volume
+    environment:
+      # These environment variables configure the initial database and user
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    ports:
+      # Map the container port 5432 to the host port 5432.
+      # This is crucial for accessing it from WSL via localhost.
+      - "5432:5432" 
+    restart: always
+
+volumes:
+  postgres_data:
