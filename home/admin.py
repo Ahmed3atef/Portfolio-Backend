@@ -30,3 +30,8 @@ class SkillInline(admin.TabularInline):
 class SkillCategoryAdmin(admin.ModelAdmin):
     list_display = ['title']
     inlines = [SkillInline]
+
+@admin.register(models.Experience)
+class Experience(admin.ModelAdmin):
+    list_display=['title', 'company','end_date']
+    

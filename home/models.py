@@ -53,6 +53,8 @@ class Experience(models.Model):
     
     class Meta:
         ordering = ['-start_date' , '-end_date']
+    def __str__(self):
+        return self.company
 
 class Project(models.Model):
     title = models.CharField(max_length=255)
