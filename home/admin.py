@@ -15,7 +15,7 @@ class ProfileAdmin(admin.ModelAdmin):
     readonly_fields = ['ProfileImage']
     def ProfileImage(self, instance):
         if instance.image.name != '':
-            return format_html(f'<img src="{instance.image.url}" class="ProfileImage" />')
+            return format_html(f'<img src="{instance.image.url}" class="Image" />')
         return ''
     class Media:
         css={
@@ -32,6 +32,20 @@ class SkillCategoryAdmin(admin.ModelAdmin):
     inlines = [SkillInline]
 
 @admin.register(models.Experience)
-class Experience(admin.ModelAdmin):
+class ExperienceAdmin(admin.ModelAdmin):
     list_display=['title', 'company','end_date']
+
+@admin.register(models.Project)
+class ProjectAdmin(admin.ModelAdmin):
+    list_display=['title', 'description', 'source_link']
+    readonly_fields=['ProjectImage']
     
+    def ProjectImage(self, instance):
+        if instance.image.name != '':
+            return format_html(f'<img src="{instance.image.url}" class="Image"/>')
+        return ''
+    
+    class Media:
+        css = {
+            'all': ['admin_styles/styles.css']
+        }

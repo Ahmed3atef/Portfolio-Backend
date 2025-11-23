@@ -62,6 +62,9 @@ class Project(models.Model):
     image = models.ImageField(upload_to='project/images/')
     source_link = models.URLField()
     demo_link = models.URLField(null=True, blank=True)
+    
+    def __str__(self):
+        return self.title
 
 class Reward(models.Model):
     title = models.CharField(max_length=255)
