@@ -75,3 +75,6 @@ class Reward(models.Model):
     
     class Meta:
         ordering=['-date_earned']
+
+    def __str__(self):
+        return self.title

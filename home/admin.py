@@ -49,3 +49,19 @@ class ProjectAdmin(admin.ModelAdmin):
         css = {
             'all': ['admin_styles/styles.css']
         }
+
+
+@admin.register(models.Reward)
+class RewardAdmin(admin.ModelAdmin):
+    list_display = ['title', 'description', 'date_earned']
+    readonly_fields = ['RewardImage']
+
+    def RewardImage(self, instance):
+        if instance.image.name != '':
+            return format_html(f'<img src="{instance.image.url}" class="Image"/>')
+        return ''
+
+    class Media:
+        css = {
+            'all': ['admin_styles/styles.css']
+        }
