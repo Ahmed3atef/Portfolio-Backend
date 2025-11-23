@@ -20,6 +20,8 @@ from django.contrib import admin
 import debug_toolbar
 from django.urls import path, include
 
+admin.site.site_header = 'Portfolio Admin Panel'
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('home.urls')),

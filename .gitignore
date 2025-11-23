@@ -1,7 +1,8 @@
 *.sqlite3
 *.db
-*/__pycache__
+__pycache__/
+__pycache__/
 
-*/media
+media/
 info .md
 .env
