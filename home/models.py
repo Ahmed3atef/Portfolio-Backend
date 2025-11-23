@@ -33,9 +33,15 @@ class Profile(models.Model):
 class SkillCategory(models.Model):
     title = models.CharField(max_length=255)
     
+    def __str__(self):
+        return self.title
+    
 class Skill(models.Model):
-    category = models.OneToOneField(SkillCategory, on_delete=models.CASCADE)
+    category = models.ForeignKey(SkillCategory, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
+    
+    def __str__(self):
+        return self.name
 
 class Experience(models.Model):
     title = models.CharField(max_length=255)
@@ -60,7 +66,7 @@ class Reward(models.Model):
     description = models.TextField()
     image = models.ImageField(upload_to='reward/images/')
     link = models.URLField()
-    date_earned = models.DateField()
+    date_earned = models.DateField(null=True)
     
     class Meta:
         ordering=['-date_earned']

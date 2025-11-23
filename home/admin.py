@@ -21,3 +21,12 @@ class ProfileAdmin(admin.ModelAdmin):
         css={
             'all':['admin_styles/styles.css']
         }
+
+
+class SkillInline(admin.TabularInline):
+    model = models.Skill
+
+@admin.register(models.SkillCategory)
+class SkillCategoryAdmin(admin.ModelAdmin):
+    list_display = ['title']
+    inlines = [SkillInline]
