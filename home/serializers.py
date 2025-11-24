@@ -66,3 +66,11 @@ class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Project
         fields = ['title', 'description', 'image_url', 'source_url', 'demo_url']
+
+
+class RewardSerializer(serializers.ModelSerializer):
+    image_url = serializers.ImageField(source="image")
+    credential_url = serializers.URLField(source="link")
+    class Meta:
+        model = models.Reward
+        fields = ['title', 'description', 'image_url', 'credential_url']

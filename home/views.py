@@ -40,3 +40,10 @@ class ProjectViewSet(ModelViewSet):
     permission_classes = [AllowAny]
     queryset = models.Project.objects.all()
     serializer_class = serializers.ProjectSerializer
+
+# GET / api/rewards
+class RewardViewSet(ModelViewSet):
+    http_method_names = ['get']
+    permission_classes = [AllowAny]
+    queryset = models.Reward.objects.all()
+    serializer_class = serializers.RewardSerializer

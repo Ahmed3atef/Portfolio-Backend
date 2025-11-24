@@ -7,6 +7,7 @@ router.register('profile-data', views.ProfileViewSet, basename='profile')
 router.register('skills', views.SkillViewSet)
 router.register('experience', views.ExperienceViewSet)
 router.register('projects', views.ProjectViewSet)
+router.register('rewards', views.RewardViewSet)
 
 
 urlpatterns = [
