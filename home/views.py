@@ -26,3 +26,11 @@ class SkillViewSet(ModelViewSet):
     permission_classes=[AllowAny]
     queryset = models.SkillCategory.objects.prefetch_related('skill_set').all()
     serializer_class = serializers.SkillCategorySerializer
+
+# GET /api/experience
+class ExperienceViewSet(ModelViewSet):
+    http_method_names = ['get']
+    permission_classes = [AllowAny]
+    queryset = models.Experience.objects.all()
+    serializer_class = serializers.ExperienceSerializer
+    

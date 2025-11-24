@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from . import models
+import datetime
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -45,4 +46,14 @@ class SkillCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.SkillCategory
         fields = ['title', 'items']
+
+
+class ExperienceSerializer(serializers.ModelSerializer):
+    dates = serializers.SerializerMethodField()
     
+    def get_dates(self,obj):
+        return f"[{obj.start_date.strftime("%B %Y")}] - [{obj.end_date.strftime("%B %Y") if obj.end_date else 'Present'}]"
+    
+    class Meta:
+        model = models.Experience
+        fields = ['title', 'company', 'dates', 'location', 'tasks']
