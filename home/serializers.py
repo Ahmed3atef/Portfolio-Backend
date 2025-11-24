@@ -1,4 +1,3 @@
-from wsgiref.validate import validator
 from rest_framework import serializers
 from . import models
 
@@ -30,3 +29,20 @@ class ProfileSerializer(serializers.ModelSerializer):
             'cv_url',
             'game_url',
         ]
+    
+
+class SkillSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Skill
+        fields = ['name']
+    
+class SkillCategorySerializer(serializers.ModelSerializer):
+    items = serializers.SerializerMethodField()
+    
+    def get_items(self,obj):
+        return [skill.name for skill in obj.skill_set.all()]
+    
+    class Meta:
+        model = models.SkillCategory
+        fields = ['title', 'items']
+    

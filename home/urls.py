@@ -4,6 +4,7 @@ from . import views
 
 router = SimpleRouter()
 router.register('profile-data', views.ProfileViewSet, basename='profile')
+router.register('skills', views.SkillViewSet)
 
 
 urlpatterns = [

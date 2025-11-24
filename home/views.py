@@ -1,8 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework import status
-from rest_framework.viewsets import ModelViewSet, GenericViewSet
-from rest_framework.mixins import RetrieveModelMixin
+from rest_framework.viewsets import ModelViewSet
 
 from . import models
 from . import serializers
@@ -21,3 +20,9 @@ class ProfileViewSet(ModelViewSet):
         serializer = self.get_serializer(obj)
         return Response(serializer.data)
 
+# GET /api/skills
+class SkillViewSet(ModelViewSet):
+    http_method_names = ['get']
+    permission_classes=[AllowAny]
+    queryset = models.SkillCategory.objects.prefetch_related('skill_set').all()
+    serializer_class = serializers.SkillCategorySerializer
