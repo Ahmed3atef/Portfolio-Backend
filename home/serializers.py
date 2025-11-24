@@ -57,3 +57,12 @@ class ExperienceSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Experience
         fields = ['title', 'company', 'dates', 'location', 'tasks']
+
+
+class ProjectSerializer(serializers.ModelSerializer):
+    image_url = serializers.ImageField(source='image')
+    source_url = serializers.URLField(source='source_link')
+    demo_url = serializers.URLField(source='demo_link')
+    class Meta:
+        model = models.Project
+        fields = ['title', 'description', 'image_url', 'source_url', 'demo_url']

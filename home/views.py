@@ -33,4 +33,10 @@ class ExperienceViewSet(ModelViewSet):
     permission_classes = [AllowAny]
     queryset = models.Experience.objects.all()
     serializer_class = serializers.ExperienceSerializer
-    
+
+# GET /api/projects
+class ProjectViewSet(ModelViewSet):
+    http_method_names = ['get']
+    permission_classes = [AllowAny]
+    queryset = models.Project.objects.all()
+    serializer_class = serializers.ProjectSerializer
