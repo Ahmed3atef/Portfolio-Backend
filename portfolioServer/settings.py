@@ -48,7 +48,8 @@ INSTALLED_APPS = [
 
 THIRD_PART_APPS = [
     "debug_toolbar",
-    "rest_framework",   
+    "rest_framework",
+    "corsheaders",
     
 ]
 
@@ -66,6 +67,7 @@ INTERNAL_IPS = [
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -157,6 +159,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 AUTH_USER_MODEL = 'core.User'
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173',
+    'http://172.0.0.1:5173',
+]
 
 REST_FRAMEWORK = {
     'COERCE_DECIMAL_TO_STRING': False,
