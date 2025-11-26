@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from . import models
-import datetime
+
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -74,3 +74,8 @@ class RewardSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Reward
         fields = ['title', 'description', 'image_url', 'credential_url']
+
+class ContactSerializer(serializers.Serializer):
+    name = serializers.CharField(max_length=255)
+    email = serializers.EmailField()
+    message = serializers.CharField()

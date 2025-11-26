@@ -16,6 +16,7 @@ django-cors-headers = "*"
 psycopg = "*"
 psycopg2-binary = "*"
 django-environ = "*"
+drf-yasg = "*"
 
 [dev-packages]
 

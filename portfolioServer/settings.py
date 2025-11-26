@@ -50,6 +50,7 @@ THIRD_PART_APPS = [
     "debug_toolbar",
     "rest_framework",
     "corsheaders",
+    'drf_yasg',
     
 ]
 
@@ -174,4 +175,5 @@ EMAIL_HOST = env('MAIL_HOST')
 EMAIL_HOST_USER = env('MAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('MAIL_HOST_PASSWORD')
 EMAIL_PORT = env('MAIL_PORT')
-EMAIL_USER_TLS = True
+EMAIL_USE_TLS = True
+
