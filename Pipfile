@@ -17,6 +17,8 @@ psycopg = "*"
 psycopg2-binary = "*"
 django-environ = "*"
 drf-yasg = "*"
+django-templated-email = "*"
+django-templated-mail = "*"
 
 [dev-packages]
 

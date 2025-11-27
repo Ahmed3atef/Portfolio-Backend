@@ -1,8 +1,10 @@
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework import status
-from django.core.mail import EmailMessage, BadHeaderError
+from django.core.mail import  BadHeaderError
+from templated_mail.mail import BaseEmailMessage
 from django.conf import settings
+from django.utils import timezone
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 
 from . import models
@@ -61,22 +63,23 @@ class ContactViewSet(GenericViewSet):
         if serializer.is_valid(raise_exception=True):
             data = serializer.validated_data
             
-            email_body = (
-                f"Name: {data.get('name')}\n"
-                f"Email: {data.get('email')}\n\n"
-                f"Message:\n{data.get('message')}"
-            )
+            name = data.get('name')
+            email = data.get('email')
+            message = data.get('message')
             
             try:
 
-                email = EmailMessage(
-                    subject=f"New contact from {data.get('name')}",
-                    body=email_body,
-                    from_email=settings.EMAIL_HOST_USER,
-                    to=[settings.EMAIL_HOST_USER],
-                    reply_to=[data.get('email')]
+                email = BaseEmailMessage(
+                    template_name='emails/contact-me.html',
+                    context={
+                        'name':name, 
+                        'email':email, 
+                        'message': message,
+                        'timestamp': timezone.now().strftime("%Y-%m-%d %H:%M")
+                        }
                 )
-                email.send(fail_silently=False)
+                email.send(to=[settings.EMAIL_HOST_USER], reply_to=[email])
+                
                 return Response({'message': 'ok'}, status=status.HTTP_200_OK)
             except BadHeaderError:
                 return Response(
