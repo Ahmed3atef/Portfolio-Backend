@@ -13,12 +13,11 @@ from . import serializers
 # GET /api/profile-data/
 class ProfileViewSet(ModelViewSet):
     http_method_names = ["get"]
-    queryset = models.Profile.objects.select_related('user').all()
     serializer_class = serializers.ProfileSerializer
     permission_classes = [AllowAny]
     
     def list(self, request, *args, **kwargs):
-        obj = self.get_queryset().first()
+        obj = models.Profile.objects.select_related('user').first()
         if obj is None:
             return Response({"detail": "No profiles found."}, status=status.HTTP_404_NOT_FOUND)
         serializer = self.get_serializer(obj)
@@ -62,21 +61,17 @@ class ContactViewSet(GenericViewSet):
         serializer = serializers.ContactSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             data = serializer.validated_data
-            
-            name = data.get('name')
-            email = data.get('email')
-            message = data.get('message')
-            
+             
             try:
 
                 email = BaseEmailMessage(
                     template_name='emails/contact-me.html',
                     context={
-                        'name':name, 
-                        'email':email, 
-                        'message': message,
+                        'name': data['name'], 
+                        'email': data['email'], 
+                        'message': data['message'],
                         'timestamp': timezone.now().strftime("%Y-%m-%d %H:%M")
-                        }
+                    }
                 )
                 email.send(to=[settings.EMAIL_HOST_USER], reply_to=[email])
                 

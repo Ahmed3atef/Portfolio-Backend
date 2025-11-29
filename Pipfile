@@ -7,20 +7,18 @@ name = "pypi"
 django = "*"
 django-debug-toolbar = "*"
 djangorestframework = "*"
-drf-nested-routers = "*"
-django-filter = "*"
 djoser = "*"
 djangorestframework-simplejwt = "*"
 pillow = "*"
 django-cors-headers = "*"
-psycopg = "*"
 psycopg2-binary = "*"
 django-environ = "*"
 drf-yasg = "*"
-django-templated-email = "*"
 django-templated-mail = "*"
 
 [dev-packages]
+pytest-django = "*"
+pytest = "*"
 
 [requires]
 python_version = "3.14"
