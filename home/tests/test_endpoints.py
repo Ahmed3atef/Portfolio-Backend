@@ -1,5 +1,6 @@
 import os
 import pytest
+from django.core import mail
 from django.urls import reverse
 from rest_framework.test import APIClient
 from rest_framework import status
@@ -233,3 +234,74 @@ class TestRewardsAPI:
 
        assert 'image_url' in item
        assert item['image_url'].startswith('http')
+
+
+@pytest.mark.django_db
+class TestContactAPI:
+
+    def setup_method(self, method):
+        self.client = APIClient()
+        self.url = reverse('contact-list')
+
+    def test_send_contact_email_success(self):
+        """
+        Tests that valid data returns 200 OK and sends 1 email.
+        """
+        # ARRANGE
+        payload = {
+            "name": "Visitor Name",
+            "email": "visitor@example.com",
+            "message": "Hello, I would like to hire you."
+        }
+
+        # ACT
+        response = self.client.post(self.url, payload)
+
+        # ASSERT RESPONSE
+        assert response.status_code == status.HTTP_200_OK
+        assert response.data == {'message': 'ok'}
+
+        # ASSERT EMAIL SIDE EFFECT
+        # Check that exactly 1 email was sent
+        assert len(mail.outbox) == 1
+
+        # Verify email contents
+        sent_email = mail.outbox[0]
+        assert "visitor@example.com" in sent_email.body  
+        assert "Visitor Name" in sent_email.body
+
+    def test_contact_invalid_email_returns_400(self):
+        """
+        Tests that invalid email format prevents sending and returns 400.
+        """
+        # ARRANGE
+        payload = {
+            "name": "Visitor Name",
+            "email": "not-an-email-address",
+            "message": "Hello"
+        }
+
+        # ACT
+        response = self.client.post(self.url, payload)
+
+        # ASSERT
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+
+        # Verify NO email was sent
+        assert len(mail.outbox) == 0
+
+    def test_contact_missing_fields_returns_400(self):
+        """
+        Tests that missing required fields returns 400.
+        """
+        # ARRANGE
+        payload = {
+            "name": "Visitor Name"
+        }
+
+        # ACT
+        response = self.client.post(self.url, payload)
+
+        # ASSERT
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        assert len(mail.outbox) == 0

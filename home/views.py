@@ -73,7 +73,7 @@ class ContactViewSet(GenericViewSet):
                         'timestamp': timezone.now().strftime("%Y-%m-%d %H:%M")
                     }
                 )
-                email.send(to=[settings.EMAIL_HOST_USER], reply_to=[email])
+                email.send(to=[settings.EMAIL_HOST_USER], reply_to=[data["email"]])
                 
                 return Response({'message': 'ok'}, status=status.HTTP_200_OK)
             except BadHeaderError:
