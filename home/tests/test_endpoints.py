@@ -97,4 +97,16 @@ class TestSkillsAPI:
       
       assert response.status_code == status.HTTP_200_OK
    
+@pytest.mark.django_db
+class TestExperienceAPI:
    
+   def setup_method(self,method):
+      self.client = APIClient()
+      
+   def test_get_experience_data_returns_200(self):
+      url = reverse("experience-list")
+      
+      response = self.client.get(url)
+      
+      assert response.status_code == status.HTTP_200_OK
+      
