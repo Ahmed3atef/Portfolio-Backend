@@ -110,3 +110,15 @@ class TestExperienceAPI:
       
       assert response.status_code == status.HTTP_200_OK
       
+@pytest.mark.django_db
+class TestProjectsAPI:
+   def setup_method(self, method):
+      self.client = APIClient()
+   
+   def test_get_projects_data_returns_200(self):
+      url = reverse("project-list")
+      
+      response = self.client.get(url)
+      
+      assert response.status_code == status.HTTP_200_OK
+
