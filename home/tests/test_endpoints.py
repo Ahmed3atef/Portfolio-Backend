@@ -8,7 +8,7 @@ import pytest
 
 
 @pytest.mark.django_db
-class TestProfileData:
+class TestProfileDataAPI:
 
    def setup_method(self, method):
       self.client = APIClient()
@@ -82,3 +82,19 @@ class TestProfileData:
       # Verify a few fields in the response data
       assert response.data['title'] == 'Software Engineer'
       assert response.data['name'] == 'John Doe'
+
+@pytest.mark.django_db
+class TestSkillsAPI:
+   
+   def setup_method(self,method):
+      self.client = APIClient()
+   
+   def test_get_skills_data_return_200(self):
+      
+      url = reverse("skillcategory-list")
+      
+      response = self.client.get(url)
+      
+      assert response.status_code == status.HTTP_200_OK
+   
+   
