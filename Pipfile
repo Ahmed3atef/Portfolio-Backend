@@ -17,6 +17,8 @@ django-templated-mail = "*"
 gunicorn = "*"
 whitenoise = "*"
 dj-database-url = "*"
+cloudinary = "*"
+django-cloudinary-storage = "*"
 
 [dev-packages]
 pytest = "*"

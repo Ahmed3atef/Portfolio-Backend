@@ -50,6 +50,8 @@ THIRD_PART_APPS = [
     "rest_framework",
     "corsheaders",
     'drf_yasg',
+    'cloudinary',
+    'cloudinary_storage'
     
 ]
 
@@ -160,12 +162,28 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Configure WhiteNoise to compress and cache static files
 STORAGES = {
+    # 1. Media Files (User Uploads) - This is the 'default' key Django is looking for
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
+
+    # 2. Static Files (CSS, JS, etc.) - For collecting static files
+    # We set this to the standard Django FileSystemStorage for local development
+    # and often to a Cloudinary/S3 storage in production.
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        # If you want to use Cloudinary for static files too, change the backend:
+        # "BACKEND": "cloudinary_storage.storage.StaticCloudinaryStorage",
     },
 }
 
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
+}
 MEDIA_URL = 'media/'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
