@@ -2,6 +2,7 @@
 *.db
 __pycache__/
 __pycache__/
+staticfiles/
 
 media/
 info .md

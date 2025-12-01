@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CYBERNETIC CORE - Digital Portfolio</title>
+    <link rel="icon" href="{% static "core/favicon.png" %}" type="image/png"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static "core/styles.css" %}"/>
+</head>
+<body>
+    <div class="grid-bg"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1 class="title">/// WELCOME TO THE GRID ///</h1>
+            <h2 class="subtitle">CYBERNETIC CORE</h2>
+            <p class="description">NODE FOR DATA TRANSMISSION // DIGITAL PORTFOLIO</p>
+        </div>
+        
+        <div class="buttons-container">
+            <a href="{% url "schema-swagger-ui" %}">
+                <button class="cyber-button green-btn" id="api-btn">
+                    <i class="fas fa-plug"></i>
+                    ACCESS API ROOT // PROTOCOL: JSON
+                </button>
+            </a>
+            
+            <a href="{% url "admin:index" %}">
+                <button class="cyber-button pink-btn" id="admin-btn">
+                    <i class="fas fa-terminal"></i>
+                    OVERRIDE: ADMIN TERMINAL
+                </button>
+            </a>
+            <a href="">
+                <button class="cyber-button blue-btn" id="visual-btn">
+                    <i class="fas fa-desktop"></i>
+                    DEPLOY FRONTLINE: VISUAL INTERFACE
+                </button>
+            </a>
+            <a href="{% url 'schema-redoc' %}">
+                <button class="cyber-button orange-btn" id="docs-btn">
+                    <i class="fas fa-file-code"></i>
+                    DOCS.PROTOCOL // SCHEMATIC & ENDPOINTS
+                </button>
+            </a>
+        </div>
+        
+        <div class="status-bar">
+            <div class="status-item">
+                <div class="status-indicator online-indicator"></div>
+                <span>SYSTEM STATUS: ONLINE & OPERATIONAL</span>
+            </div>
+            
+            <div class="status-item">
+                <div class="status-indicator integrity-indicator"></div>
+                <span>DATA INTEGRITY: HIGH // NODE: LOCAL HOST</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -14,6 +14,7 @@ from . import serializers
 class ProfileViewSet(ModelViewSet):
     http_method_names = ["get"]
     serializer_class = serializers.ProfileSerializer
+    queryset = models.Profile.objects.all()
     permission_classes = [AllowAny]
     
     def list(self, request, *args, **kwargs):

@@ -12,13 +12,15 @@ djangorestframework-simplejwt = "*"
 pillow = "*"
 django-cors-headers = "*"
 psycopg2-binary = "*"
-django-environ = "*"
 drf-yasg = "*"
 django-templated-mail = "*"
+gunicorn = "*"
+whitenoise = "*"
+dj-database-url = "*"
 
 [dev-packages]
-pytest-django = "*"
 pytest = "*"
+pytest-django = "*"
 pytest-watch = "*"
 
 [requires]

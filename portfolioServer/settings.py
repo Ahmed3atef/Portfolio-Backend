@@ -12,28 +12,27 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 import os
 from pathlib import Path
-import environ
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Initialize environ and read .env file
-env = environ.Env()
-
-# Read .env file from project root
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY', 'default-insecure-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG')
+DEBUG = os.environ.get('DJANGO_DEBUG', 'True')
 
-ALLOWED_HOSTS = []
+# Set ALLOWED_HOSTS for Fly.io
+FLY_APP_NAME = os.environ.get('FLY_APP_NAME', '')
+ALLOWED_HOSTS = [f"{FLY_APP_NAME}.fly.dev", "localhost", "127.0.0.1"]
 
+# CSRF_TRUSTED_ORIGINS is necessary if you use Django forms/admin/sessions
+CSRF_TRUSTED_ORIGINS = [f"https://{FLY_APP_NAME}.fly.dev"]
 
 # Application definition
 
@@ -70,6 +69,7 @@ INTERNAL_IPS = [
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -103,16 +103,23 @@ WSGI_APPLICATION = 'portfolioServer.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env('DB_NAME'),
-        'USER': env('DB_USER'),
-        'PASSWORD': env('DB_PASSWORD'),
-        'HOST': env('DB_HOST'),  
-        'PORT': env('DB_PORT'),
-    }
+    'default': dj_database_url.config(
+        default='sqlite:///db.sqlite3',  # Fallback for local development
+        conn_max_age=600,
+        conn_health_checks=True,  # Recommended for serverless DBs like Neon
+    )
 }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': os.environ.get('DB_NAME'),
+#         'USER': os.environ.get('DB_USER'),
+#         'PASSWORD': os.environ.get('DB_PASSWORD'),
+#         'HOST': os.environ.get('DB_HOST'),
+#         'PORT': os.environ.get('DB_PORT'),
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -149,6 +156,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Configure WhiteNoise to compress and cache static files
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -162,10 +177,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'core.User'
 
 CORS_ALLOWED_ORIGINS = [
+    'https://ahmed3atef.github.io',
     'http://localhost:5173',
-    'http://172.0.0.1:5173',
+    'http://127.0.0.1:5173',        
     'http://172.30.16.1:3000',
-    'http://localhost:3000'
+    'http://localhost:3000',
+    'http://127.0.0.1:3000'         
 ]
 
 REST_FRAMEWORK = {
@@ -173,9 +190,10 @@ REST_FRAMEWORK = {
 }
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = env('MAIL_HOST')
-EMAIL_HOST_USER = env('MAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = env('MAIL_HOST_PASSWORD')
-EMAIL_PORT = env('MAIL_PORT')
+EMAIL_HOST = os.environ.get('MAIL_HOST')
+EMAIL_HOST_USER = os.environ.get('MAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('MAIL_HOST_PASSWORD')
+EMAIL_PORT = os.environ.get('MAIL_PORT')
 EMAIL_USE_TLS = True
+
 

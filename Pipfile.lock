@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "990dcb2a2621f38be200b24d7886b83b59d6d186bfe3c375b8e5bfe8c15efb42"
+            "sha256": "a0ee680fe0c0eef6a2d61b62bef4f92415517227e451e95f26eaccdd7343df1a"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -309,6 +309,14 @@
             "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4'",
             "version": "==0.7.1"
         },
+        "dj-database-url": {
+            "hashes": [
+                "sha256:43950018e1eeea486bf11136384aec0fe55b29fe6fd8a44553231b85661d9383",
+                "sha256:8994961efb888fc6bf8c41550870c91f6f7691ca751888ebaa71442b7f84eff8"
+            ],
+            "index": "pypi",
+            "version": "==3.0.1"
+        },
         "django": {
             "hashes": [
                 "sha256:23254866a5bb9a2cfa6004e8b809ec6246eba4b58a7589bc2772f1bcc8456c7f",
@@ -335,15 +343,6 @@
             "index": "pypi",
             "markers": "python_version >= '3.9'",
             "version": "==6.1.0"
-        },
-        "django-environ": {
-            "hashes": [
-                "sha256:227dc891453dd5bde769c3449cf4a74b6f2ee8f7ab2361c93a07068f4179041a",
-                "sha256:92fb346a158abda07ffe6eb23135ce92843af06ecf8753f43adf9d2366dcc0ca"
-            ],
-            "index": "pypi",
-            "markers": "python_version >= '3.9' and python_version < '4'",
-            "version": "==0.12.0"
         },
         "django-templated-mail": {
             "hashes": [
@@ -388,6 +387,15 @@
             "index": "pypi",
             "markers": "python_version >= '3.9'",
             "version": "==1.21.11"
+        },
+        "gunicorn": {
+            "hashes": [
+                "sha256:ec400d38950de4dfd418cff8328b2c8faed0edb0d517d3394e457c317908ca4d",
+                "sha256:f014447a0101dc57e294f6c18ca6b40227a4c90e9bdb586042628030cba004ec"
+            ],
+            "index": "pypi",
+            "markers": "python_version >= '3.7'",
+            "version": "==23.0.0"
         },
         "idna": {
             "hashes": [
@@ -760,6 +768,15 @@
             ],
             "markers": "python_version >= '3.9'",
             "version": "==2.5.0"
+        },
+        "whitenoise": {
+            "hashes": [
+                "sha256:0f5bfce6061ae6611cd9396a8231e088722e4fc67bc13a111be74c738d99375f",
+                "sha256:b2aeb45950597236f53b5342b3121c5de69c8da0109362aee506ce88e022d258"
+            ],
+            "index": "pypi",
+            "markers": "python_version >= '3.9'",
+            "version": "==6.11.0"
         }
     },
     "develop": {
