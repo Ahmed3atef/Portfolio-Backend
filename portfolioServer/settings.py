@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'default-insecure-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DJANGO_DEBUG', 'True')
+DEBUG = False
 
 # Set ALLOWED_HOSTS for Fly.io
 FLY_APP_NAME = os.environ.get('FLY_APP_NAME', '')
