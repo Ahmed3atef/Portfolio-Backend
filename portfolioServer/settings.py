@@ -27,12 +27,17 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'default-insecure-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-# Set ALLOWED_HOSTS for Fly.io
-FLY_APP_NAME = os.environ.get('FLY_APP_NAME', '')
-ALLOWED_HOSTS = [f"{FLY_APP_NAME}.fly.dev", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = []
+
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 # CSRF_TRUSTED_ORIGINS is necessary if you use Django forms/admin/sessions
-CSRF_TRUSTED_ORIGINS = [f"https://{FLY_APP_NAME}.fly.dev"]
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.onrender.com',
+    'https://ahmed3atef.github.io',
+]
 
 # Application definition
 
@@ -55,6 +60,9 @@ THIRD_PART_APPS = [
     
 ]
 
+if DEBUG:
+    INSTALLED_APPS += ["debug_toolbar"]
+    
 LOCAL_APPS = [
     'core.apps.CoreConfig',
     'home.apps.HomeConfig',
@@ -171,9 +179,7 @@ STORAGES = {
     # We set this to the standard Django FileSystemStorage for local development
     # and often to a Cloudinary/S3 storage in production.
     "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
-        # If you want to use Cloudinary for static files too, change the backend:
-        # "BACKEND": "cloudinary_storage.storage.StaticCloudinaryStorage",
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
 

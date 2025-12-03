@@ -26,48 +26,25 @@ A powerful and clean RESTful API to power a personal portfolio website. Built wi
 ### 💻 Technology Stack
 
 -   **Backend:** [Python](https://www.python.org/), [Django](https://www.djangoproject.com/), [Django REST Framework](https://www.django-rest-framework.org/)
--   **Database:** [PostgreSQL](https://www.postgresql.org/)
+-   **Database:** [PostgreSQL](https://www.postgresql.org/) on [Neon](https://neon.tech/)
 -   **Testing:** [Pytest](https://docs.pytest.org/)
--   **Deployment:** [Docker](https://www.docker.com/), [Fly.io](https://fly.io/)
+-   **Deployment:** [Docker](https://www.docker.com/), [Render](https://render.com/)
 
 ---
 
-### 🚀 Getting Started locally
+### 🚀 Deploying to Render
 
-1.  **Clone the project**
-    ```bash
-    git clone https://github.com/Ahmed3atef/Portfolio-Backend.git
-    cd Portfolio-Backend
-    ```
+This project is configured for deployment on [Render](https://render.com/) using Docker.
 
-2.  **Set up the environment**
-    ```bash
-    pipenv install --dev
-    pipenv shell
-    ```
-
-3.  **Set up your `.env` file**
-    You'll need to create a `.env` file in the root of the project. A `.env.example` can be provided to show the required variables. For a basic local setup, you'll need at least:
-    ```
-    SECRET_KEY='a-super-secret-key'
-    DEBUG=True
-    ```
-
-4.  **Run database migrations**
-    ```bash
-    python manage.py migrate
-    ```
-
-5.  **Create a superuser (optional)**
-    ```bash
-    python manage.py createsuperuser
-    ```
-
-6.  **Start the server**
-    ```bash
-    python manage.py runserver
-    ```
-    Your API is now running at `http://127.0.0.1:8000`!
+1.  **Create a new PostgreSQL database on Neon**. You can follow the instructions on the [Neon website](https://neon.tech/docs/introduction/quickstart).
+2.  **Create a new Web Service on Render** and connect it to your GitHub repository.
+3.  **Ensure "Docker" is selected** as the environment. Render will automatically detect and build your `Dockerfile`.
+4.  **Set the following environment variables** in the Render dashboard:
+    -   `SECRET_KEY`: A strong, randomly generated secret key.
+    -   `DATABASE_URL`: The connection string for your Neon database. You can find this in your Neon project settings.
+    -   `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`: Your Cloudinary credentials.
+    -   `MAIL_HOST`, `MAIL_HOST_USER`, `MAIL_HOST_PASSWORD`, `MAIL_PORT`: Your email provider's SMTP credentials.
+5.  **The application will be deployed** and available at the URL provided by Render.
 
 ---
 
@@ -98,5 +75,5 @@ Portfolio-Backend/
 ├── manage.py         # Django's command-line utility
 ├── Pipfile           # Project dependencies
 ├── Dockerfile        # Docker configuration
-└── fly.toml          # Fly.io deployment configuration
+└── .dockerignore     # Files to ignore when building Docker image
 ```

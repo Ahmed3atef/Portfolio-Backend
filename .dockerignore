@@ -1,3 +1,10 @@
-fly.toml
-.git/
+.git
+.venv
+__pycache__
+*.pyc
+*.log
 *.sqlite3
+.DS_Store
+.env
+media
+static
