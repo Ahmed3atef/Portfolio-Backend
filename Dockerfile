@@ -1,27 +1,27 @@
-# Use an official Python runtime as a parent image
-FROM python:3.14-slim-buster
+ARG PYTHON_VERSION=3.14-slim
 
-# Set the working directory in the container
-WORKDIR /app
+FROM python:${PYTHON_VERSION}
 
-# Install pipenv
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# install psycopg2 dependencies.
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN mkdir -p /code
+
+WORKDIR /code
+
 RUN pip install pipenv
+COPY Pipfile Pipfile.lock /code/
+RUN pipenv install --deploy --system
+COPY . /code
 
-# Copy the Pipfile and Pipfile.lock to the working directory
-COPY Pipfile Pipfile.lock /app/
-
-# Install project dependencies
-RUN pipenv install --system --deploy --ignore-pipfile
-
-# Copy the rest of the application code to the working directory
-COPY . /app
-
-# Collect static files
 RUN python manage.py collectstatic --noinput
 
-
-# Expose the port the app runs on
 EXPOSE 8000
 
-# Run the Gunicorn server
-CMD ["gunicorn", "--bind", ":8000","--workers","2", "portfolioServer.wsgi:application"]
+CMD ["gunicorn","--bind",":8000","--workers","2","portfolioServer.wsgi"]
