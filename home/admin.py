@@ -13,9 +13,10 @@ class ProfileAdmin(admin.ModelAdmin):
         'title', 
         ]
     readonly_fields = ['ProfileImage']
+    @admin.display(description='Profile Image')
     def ProfileImage(self, instance):
-        if instance.image.name != '':
-            return format_html(f'<img src="{instance.image.url}" class="Image" />')
+        if instance.image:
+            return format_html('<img src="{}" class="Image" />', instance.image.url)
         return ''
     class Media:
         css={
@@ -40,9 +41,10 @@ class ProjectAdmin(admin.ModelAdmin):
     list_display=['title', 'description', 'source_link']
     readonly_fields=['ProjectImage']
     
+    @admin.display(description='Project Image')
     def ProjectImage(self, instance):
-        if instance.image.name != '':
-            return format_html(f'<img src="{instance.image.url}" class="Image"/>')
+        if instance.image:
+            return format_html('<img src="{}" class="Image"/>', instance.image.url)
         return ''
     
     class Media:
@@ -56,9 +58,10 @@ class RewardAdmin(admin.ModelAdmin):
     list_display = ['title', 'description', 'date_earned']
     readonly_fields = ['RewardImage']
 
+    @admin.display(description='Reward Image')
     def RewardImage(self, instance):
-        if instance.image.name != '':
-            return format_html(f'<img src="{instance.image.url}" class="Image"/>')
+        if instance.image:
+            return format_html('<img src="{}" class="Image"/>', instance.image.url)
         return ''
 
     class Media:
