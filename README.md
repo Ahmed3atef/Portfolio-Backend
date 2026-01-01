@@ -6,9 +6,9 @@ A powerful and clean RESTful API to power a personal portfolio website. Built wi
 
 ### 🌐 Live API & Documentation
 
--   **Base URL:** `portfolio-backend-612r.onrender.com/api/`
--   **Swagger Docs:** `portfolio-backend-612r.onrender.com/swagger/`
--   **ReDoc:** `portfolio-backend-612r.onrender.com/redoc/`
+-   **Base URL:** `https://portfolio-backend-7a2b6514.koyeb.app/api/`
+-   **Swagger Docs:** `https://portfolio-backend-7a2b6514.koyeb.app/swagger/`
+-   **ReDoc:** `https://portfolio-backend-7a2b6514.koyeb.app/redoc/`
 
 ---
 
