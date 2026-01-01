@@ -1,27 +1,36 @@
-ARG PYTHON_VERSION=3.14-slim
+ARG PYTHON_VERSION=3.12-slim
 
 FROM python:${PYTHON_VERSION}
 
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
-# install psycopg2 dependencies.
+# Install system dependencies for psycopg2
 RUN apt-get update && apt-get install -y \
     libpq-dev \
     gcc \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p /code
+# Install uv - the fast Python package manager
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 WORKDIR /code
 
-RUN pip install pipenv
-COPY Pipfile Pipfile.lock /code/
-RUN pipenv install --deploy --system
-COPY . /code
+# Copy dependency files first for better caching
+COPY pyproject.toml uv.lock* ./
 
-RUN python manage.py collectstatic --noinput
+# Install dependencies using uv (creates virtual environment in .venv)
+RUN uv sync --frozen --no-dev
 
+# Copy application code
+COPY . .
+
+# Collect static files
+RUN uv run python manage.py collectstatic --noinput
+
+# Expose port for Koyeb
 EXPOSE 8000
 
-CMD ["gunicorn","--bind",":8000","--workers","2","portfolioServer.wsgi"]
+# Use uv run to execute gunicorn within the virtual environment
+CMD ["uv", "run", "gunicorn", "--bind", "0.0.0.0:8000", "--workers", "2", "portfolioServer.wsgi"]

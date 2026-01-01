@@ -22,20 +22,33 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+# https://djecrety.ir
 SECRET_KEY = os.environ.get('SECRET_KEY', 'default-insecure-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.environ.get('DEBUG', 'False').lower() in ('true', '1', 'yes')
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
+# Koyeb deployment support
+KOYEB_PUBLIC_DOMAIN = os.environ.get('KOYEB_PUBLIC_DOMAIN')
+if KOYEB_PUBLIC_DOMAIN:
+    ALLOWED_HOSTS.append(KOYEB_PUBLIC_DOMAIN)
+
+# Render deployment support (legacy)
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
+# Add any custom domains from environment
+CUSTOM_DOMAIN = os.environ.get('CUSTOM_DOMAIN')
+if CUSTOM_DOMAIN:
+    ALLOWED_HOSTS.append(CUSTOM_DOMAIN)
+
 # CSRF_TRUSTED_ORIGINS is necessary if you use Django forms/admin/sessions
 CSRF_TRUSTED_ORIGINS = [
     'https://*.onrender.com',
+    'https://*.koyeb.app',
     'https://ahmed3atef.github.io',
 ]
 
@@ -51,17 +64,12 @@ INSTALLED_APPS = [
 ]
 
 THIRD_PART_APPS = [
-    "debug_toolbar",
     "rest_framework",
     "corsheaders",
     'drf_yasg',
     'cloudinary',
-    'cloudinary_storage'
-    
+    'cloudinary_storage',
 ]
-
-if DEBUG:
-    INSTALLED_APPS += ["debug_toolbar"]
     
 LOCAL_APPS = [
     'core.apps.CoreConfig',
@@ -78,7 +86,6 @@ INTERNAL_IPS = [
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -88,6 +95,11 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# Add debug toolbar only in DEBUG mode
+if DEBUG:
+    INSTALLED_APPS += ["debug_toolbar"]
+    MIDDLEWARE.insert(1, "debug_toolbar.middleware.DebugToolbarMiddleware")
 
 ROOT_URLCONF = 'portfolioServer.urls'
 
@@ -206,8 +218,12 @@ CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:5173',        
     'http://172.30.16.1:3000',
     'http://localhost:3000',
-    'http://127.0.0.1:3000'         
+    'http://127.0.0.1:3000',
 ]
+
+# Add Koyeb domain to CORS if available
+if KOYEB_PUBLIC_DOMAIN:
+    CORS_ALLOWED_ORIGINS.append(f'https://{KOYEB_PUBLIC_DOMAIN}')
 
 REST_FRAMEWORK = {
     'COERCE_DECIMAL_TO_STRING': False,

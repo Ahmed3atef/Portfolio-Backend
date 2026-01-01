@@ -8,3 +8,8 @@ __pycache__
 .env
 media
 static
+Pipfile
+Pipfile.lock
+.pytest_cache
+.coverage
+htmlcov
