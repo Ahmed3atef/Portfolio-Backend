@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib import admin
 from django.core.validators import FileExtensionValidator
 from django.conf import settings
+from cloudinary_storage.storage import RawMediaCloudinaryStorage
 
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -14,7 +15,7 @@ class Profile(models.Model):
     github_url = models.URLField()
     instagram_url = models.URLField()
     linkedin_url = models.URLField()
-    cv = models.FileField(upload_to="cv_files/", validators=[FileExtensionValidator(allowed_extensions=['pdf'])])
+    cv = models.FileField(upload_to="cv_files/", validators=[FileExtensionValidator(allowed_extensions=['pdf'])], storage=RawMediaCloudinaryStorage())
     game_url = models.URLField()
     
     def __str__(self):
